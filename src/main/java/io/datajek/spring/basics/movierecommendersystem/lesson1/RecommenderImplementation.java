@@ -6,20 +6,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class RecommenderImplementation {
     @Autowired
-    private Filter filter;
+    private Filter contentBasedFilter;
 
-    public RecommenderImplementation(Filter filter) {
+    public RecommenderImplementation(Filter contentBasedFilter) {
         super();
-        this.filter = filter;
+        this.contentBasedFilter = contentBasedFilter;
     }
 
     public String[] recommendMovies(String movie) {
         //use content based filter to find similar movies
         //return the results
         //print the name of interface implementation being used
-        System.out.println("Name of the filter in use: " + filter + "\n");
+        System.out.println("Name of the filter in use: " + contentBasedFilter + "\n");
 
-        String[] results = filter.getRecommendations("Finding Dory");
+        String[] results = contentBasedFilter.getRecommendations("Finding Dory");
 
         return results;
     }
