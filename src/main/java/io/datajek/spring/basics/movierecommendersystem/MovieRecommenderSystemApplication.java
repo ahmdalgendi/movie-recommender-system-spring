@@ -1,6 +1,7 @@
 package io.datajek.spring.basics.movierecommendersystem;
 
 import io.datajek.spring.basics.movierecommendersystem.lesson1.ContentBasedFilter;
+import io.datajek.spring.basics.movierecommendersystem.lesson1.Movie;
 import io.datajek.spring.basics.movierecommendersystem.lesson1.RecommenderImplementation;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,23 +14,24 @@ public class MovieRecommenderSystemApplication {
 
     public static void main(String[] args) {
         ApplicationContext appContext = SpringApplication.run(MovieRecommenderSystemApplication.class, args);
-        //use ApplicationContext to find which filter is being used
-//        RecommenderImplementation recommender = appContext.getBean(
-//                RecommenderImplementation.class);
-//
-//        //call method to get recommendations
-//        String[] result = recommender.recommendMovies("Finding Dory");
-//
-//        //display results
-//        System.out.println(Arrays.toString(result));
+        ContentBasedFilter filter = appContext.getBean(ContentBasedFilter.class);
+        System.out.println("\nContentBasedFilter bean with singleton scope");
+        System.out.println(filter);
 
-        ContentBasedFilter cbf1 = appContext.getBean(ContentBasedFilter.class);
-        ContentBasedFilter cbf2 = appContext.getBean(ContentBasedFilter.class);
-        ContentBasedFilter cbf3 = appContext.getBean(ContentBasedFilter.class);
+        //Retrieve prototype bean from the singleton bean thrice
+        Movie movie1 = filter.getMovie();
+        Movie movie2 = filter.getMovie();
+        Movie movie3 = filter.getMovie();
 
-        System.out.println(cbf1);
-        System.out.println(cbf2);
-        System.out.println(cbf3);
+        System.out.println("\nMovie bean with prototype scope");
+        System.out.println(movie1);
+        System.out.println(movie2);
+        System.out.println(movie3);
+
+        //Print number of instances of each bean
+        System.out.println("\nContentBasedFilter instances created: "+
+                ContentBasedFilter.getInstances());
+        System.out.println("Movie instances created: "+ Movie.getInstances());
 
     }
 
